@@ -1,103 +1,145 @@
-import Image from "next/image";
+'use client'
+import { useEffect, useState } from 'react'
+import Link
+  from 'next/link'
+import TechGrid from './components/Techgrid'
+
+function useWindowWidth() {
+  const [width, setWidth] = useState<number>(0)
+  useEffect(() => {
+    function handleResize() {
+      setWidth(window.innerWidth)
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  return width
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const width = useWindowWidth()
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+
+
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] relative overflow-hidden text-white">
+      {/* ✅ Grid Background using SVG */}
+      <div className="absolute inset-0 bg-[url('/dominos.svg')] bg-repeat opacity-30 z-0" />
+
+      <div className="relative z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <header className="flex justify-between items-center mb-8 pt-6 md:pt-10">
+            <Link href="/" passHref>
+              <div
+                className="text-2xl font-bold bg-white text-black w-12 h-12 flex items-center justify-center rounded-full shadow-md 
+      transition-transform duration-300 hover:scale-110 hover:rotate-6 hover:bg-gradient-to-r hover:from-blue-400 hover:to-cyan-500 hover:text-white cursor-pointer"
+                title="Go to Home"
+              >
+                N
+              </div>
+            </Link>
+
+            <div className="flex items-center gap-4">
+              {/* Theme toggle or other icons */}
+            </div>
+          </header>
+
+          {/* Hero */}
+          <section className="flex justify-between items-center mb-16">
+            <div>
+              <h1 className="text-3xl md:text-5xl font-bold mb-2">
+                Nefi <span className="text-blue-400">Trujillo</span>,<br />
+                full-stack developer
+              </h1>
+              <p className="text-gray-300 mt-4">
+                I build modern apps using <span className="text-blue-400">React</span>, <span className="text-blue-400">Next.js</span>, and <span className="text-blue-400">Tailwind CSS</span>.
+              </p>
+            </div>
+            <img src="/nefimemoji.png"
+              alt="Avatar"
+              className={`rounded-full shadow-lg ${width > 768 ? 'w-60 h-60' : 'w-24 h-24'
+                }`} />
+          </section>
+
+          {/* Pages section */}
+          <section className="mb-12">
+            <h2 className="text-lg uppercase text-gray-400 mb-4">Pages</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Card title="Blog" subtitle="Read what I share with the world" href="/blog" />
+              <Card title="Portfolio" subtitle="Projects, experience & more" href="/portfolio" />
+              <Card title="Spotify Playlist" subtitle="My work fuel" href="https://spotify.com" external />
+              <Card title="Let's Talk" subtitle="Open to opportunities!" href="/contact" />
+            </div>
+          </section>
+
+          {/* Technologies section */}
+
+          <section>
+            <h2 className="text-lg uppercase text-gray-400 mb-4">Technologies</h2>
+            <TechGrid
+              title="Frontend"
+              items={[
+                { name: 'TypeScript', logo: '/logos/typescript.svg', bg: '#007acc' },
+                { name: 'React', logo: '/logos/react.svg', bg: '#61dafb' },
+                { name: 'Tailwind CSS', logo: '/logos/tailwindcss.svg', bg: '#38bdf8' },
+                { name: 'Next.js', logo: '/logos/nextdotjs.svg', bg: '#e8dee6' },
+                { name: 'Bootstrap', logo: '/logos/bootstrap.svg', bg: '#7952B3' },
+                { name: 'HTML5', logo: '/logos/html5.svg', bg: '#e34c26' },
+                { name: 'CSS3', logo: '/logos/css3.svg', bg: '#264de4' },
+                { name: 'JavaScript', logo: '/logos/javascript.svg', bg: '#f7df1e' },
+              ]}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+            <TechGrid
+              title="Backend"
+              items={[
+                { name: 'JavaScript', logo: '/logos/javascript.svg', bg: '#f7df1e' },
+                { name: 'Vite', logo: '/logos/vite.svg', bg: '#646cff' },
+                { name: 'Java', logo: '/logos/java.svg', bg: '#a3bcaf' },
+                { name: 'Drizzle ORM', logo: '/logos/drizzle.svg', bg: '#C5F74F' },
+              ]}
+            />
+
+            <TechGrid
+              title="Tools"
+              items={[
+                { name: 'VS Code', logo: '/logos/vscode.svg', bg: '#007acc' },
+                { name: 'GitHub', logo: '/logos/git.svg', bg: '#e8e8e6' },
+              ]}
+            />
+
+          </section>
+
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+    </main>
+  )
+}
+
+function Card({
+  title,
+  subtitle,
+  href,
+  external = false,
+}: {
+  title: string
+  subtitle: string
+  href: string
+  external?: boolean
+}) {
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : '_self'}
+      className="block bg-gray-800 rounded-lg p-4 hover:bg-gray-700 transition"
+    >
+      <p className="text-gray-400 text-sm">{subtitle}</p>
+      <h3 className="font-semibold text-white">{title}</h3>
+    </a>
+  )
 }
